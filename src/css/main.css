@@ -24,33 +24,33 @@
 
 /* Theme tokens — light paper is the default, dark is opt-in. */
 :root {
-  --paper: #f7f1e6;
-  --ink: #2b2118;
-  --muted: #9a7b5a;
-  --faint: #c8b49a;
-  --line: #e3d8c6;
-  --wordmark: #6b3f1d;
-  --accent: #c9a06a;
-  --field-hover: rgba(107, 63, 29, 0.04);
-  --field-focus: rgba(107, 63, 29, 0.06);
-  --field-ring: rgba(107, 63, 29, 0.12);
+  --paper: #e7dfd1;
+  --ink: #3a3026;
+  --muted: #8a6d50;
+  --faint: #b5a085;
+  --line: #d3c6b2;
+  --wordmark: #5f3c1d;
+  --accent: #b1865a;
+  --field-hover: rgba(101, 64, 31, 0.05);
+  --field-focus: rgba(101, 64, 31, 0.07);
+  --field-ring: rgba(101, 64, 31, 0.14);
 }
 
 [data-theme="dark"] {
-  --paper: #141312;
-  --ink: #e9e3d8;
-  --muted: #a99c8b;
-  --faint: #6f6860;
-  --line: #2b2824;
-  --wordmark: #d9b98f;
-  --accent: #c9a06a;
-  --field-hover: rgba(217, 185, 143, 0.06);
-  --field-focus: rgba(217, 185, 143, 0.09);
-  --field-ring: rgba(217, 185, 143, 0.18);
+  --paper: #1d1c19;
+  --ink: #cbc4b7;
+  --muted: #988d7f;
+  --faint: #676057;
+  --line: #2e2a26;
+  --wordmark: #bfa078;
+  --accent: #ab855a;
+  --field-hover: rgba(198, 167, 126, 0.05);
+  --field-focus: rgba(198, 167, 126, 0.08);
+  --field-ring: rgba(198, 167, 126, 0.15);
 }
 
 a {
-  color: #eee;
+  color: #ded7cc;
   text-decoration: none;
 }
 
@@ -96,8 +96,8 @@ html, body {
 }
 
 footer {
-  color: #e7e3dc;
-  background: #161616;
+  color: #ddd6ca;
+  background: #171614;
 }
 
 main {
@@ -196,7 +196,7 @@ main .content textarea::placeholder { color: var(--faint); }
   font-family: 'Rafkhata', 'Georgia', serif;
   font-size: 22px;
   line-height: 1.2;
-  color: #f1ece4;
+  color: #e2dbcf;
   padding-left: 6px;
   white-space: nowrap;
   overflow: hidden;
@@ -226,7 +226,7 @@ main .content textarea::placeholder { color: var(--faint); }
   border: 0;
   border-radius: 7px;
   background: transparent;
-  color: #b0aaa1;
+  color: #a49e95;
   cursor: pointer;
   -webkit-transition: background-color 0.15s, color 0.15s;
   transition: background-color 0.15s, color 0.15s;
@@ -239,7 +239,7 @@ main .content textarea::placeholder { color: var(--faint); }
 
 .sb-btn:hover {
   background: rgba(255, 255, 255, 0.07);
-  color: #f0ece5;
+  color: #e6e0d5;
 }
 
 .sb-new {
@@ -254,8 +254,8 @@ main .content textarea::placeholder { color: var(--faint); }
   padding: 11px 14px;
   border: 0;
   border-radius: 10px;
-  background: #303030;
-  color: #f2eee7;
+  background: #2b2a28;
+  color: #e3ddd2;
   font-size: 15px;
   text-align: left;
   cursor: pointer;
@@ -264,13 +264,13 @@ main .content textarea::placeholder { color: var(--faint); }
 }
 
 .sb-new:hover {
-  background: #3a3a3a;
+  background: #35332f;
 }
 
 .sb-plus {
   font-size: 19px;
   line-height: 1;
-  color: #cfc9c0;
+  color: #bdb6ac;
 }
 
 .sb-nav {
@@ -293,7 +293,7 @@ main .content textarea::placeholder { color: var(--faint); }
 }
 
 .sb-count {
-  color: #6f6a63;
+  color: #67625b;
   margin-left: 4px;
 }
 
@@ -315,7 +315,7 @@ main .content textarea::placeholder { color: var(--faint); }
   margin: 1px 10px;
   padding: 9px 10px;
   border-radius: 9px;
-  color: #ddd8d0;
+  color: #d2ccc1;
   font-size: 15px;
   line-height: 1.4;
   text-decoration: none;
@@ -325,13 +325,13 @@ main .content textarea::placeholder { color: var(--faint); }
 
 .sb-nav ul li a:hover,
 .sb-row:hover {
-  background: #232323;
-  color: #fff;
+  background: #232220;
+  color: #f1ece3;
 }
 
 .sb-nav ul li.active a {
-  background: #2f2f2f;
-  color: #fff;
+  background: #2b2a28;
+  color: #f1ece3;
 }
 
 .sb-icon {
@@ -340,12 +340,12 @@ main .content textarea::placeholder { color: var(--faint); }
           flex: 0 0 auto;
   width: 18px;
   height: 18px;
-  color: #a8a29a;
+  color: #9d978e;
 }
 
 .sb-nav ul li.active a .sb-icon,
 .sb-nav ul li a:hover .sb-icon {
-  color: #f0b26a;
+  color: #d9a563;
 }
 
 .sb-item-title {
@@ -383,7 +383,7 @@ main .content textarea::placeholder { color: var(--faint); }
   border: 1px solid #333;
   border-radius: 7px;
   background: #1f1f1f;
-  color: #e3ded6;
+  color: #d6d0c6;
   font-size: 13px;
   outline: none;
 }
@@ -411,14 +411,14 @@ main .content textarea::placeholder { color: var(--faint); }
           flex: 0 0 34px;
   text-align: right;
   font-size: 12px;
-  color: #9a948b;
+  color: #8f897f;
 }
 
 .sb-foot {
   margin-top: auto;
   padding: 14px 20px;
-  border-top: 1px solid #262626;
-  color: #6f6a63;
+  border-top: 1px solid #262420;
+  color: #67625b;
   font-family: 'Rafkhata', 'Avenir', sans-serif;
   font-size: 12px;
 }
@@ -456,7 +456,7 @@ main .content textarea::placeholder { color: var(--faint); }
   border: 0;
   border-radius: 7px;
   background: transparent;
-  color: #b0aaa1;
+  color: #a49e95;
   cursor: pointer;
   -webkit-transition: background-color 0.15s, color 0.15s;
   transition: background-color 0.15s, color 0.15s;
@@ -469,7 +469,7 @@ main .content textarea::placeholder { color: var(--faint); }
 
 #wrapper:not(.sidebar-collapsed) .sb-fixed-toggle:hover {
   background: rgba(255, 255, 255, 0.07);
-  color: #f0ece5;
+  color: #e6e0d5;
 }
 
 #wrapper.sidebar-collapsed .sb-fixed-toggle {
@@ -634,8 +634,8 @@ input, textarea, select, button, label {
 .switch>input:checked+label {
   padding-left: 33px;
   color: #1f1f1f;
-  background: #ffa729;
-  border-color: #ffa729;
+  background: #d99a3f;
+  border-color: #d99a3f;
 }
 
 .switch>label {
@@ -645,11 +645,11 @@ input, textarea, select, button, label {
   line-height: 20px;
   font-size: 10px;
   font-weight: bold;
-  color: #ffa729;
+  color: #d99a3f;
   text-align: center;
   text-transform: uppercase;
   background: #1f1f1f;
-  border: 2px solid #ffa729;
+  border: 2px solid #d99a3f;
   border-radius: 13px;
   -webkit-transition: 0.15s ease-out;
   -moz-transition: 0.15s ease-out;
@@ -683,7 +683,7 @@ input, textarea, select, button, label {
   margin: 2px;
   width: 17px;
   height: 17px;
-  background: #ffa729;
+  background: #d99a3f;
   border-radius: 13px;
 }
 /* Checkbox End */
@@ -692,14 +692,14 @@ input, textarea, select, button, label {
   font: 13px/13px 'Menlo', monospace;
   font-weight: bold;
   padding: 5px 7px;
-  background: #ffa729;
+  background: #d99a3f;
   color: #1f1f1f;
   border-radius: 2px;
   margin-right: 2px;
 }
 
 .label.normal {
-  color: #ffa729;
+  color: #d99a3f;
   background: #1f1f1f;
 }
 
@@ -711,11 +711,11 @@ input, textarea, select, button, label {
 /*atwho*/
 .atwho-view {
   background: #1f1f1f;
-  color: #eee;
+  color: #ded7cc;
 }
 
 .atwho-view .cur {
-  background: #ffa729;
+  background: #d99a3f;
 }
 
 .atwho-view .cur a {
@@ -724,18 +724,18 @@ input, textarea, select, button, label {
 
 .atwho-view ul li {
   border-bottom-color: #333;
-  -webkit-tap-highlight-color: #ffa729;
+  -webkit-tap-highlight-color: #d99a3f;
 }
 
 .atwho-view ul li:last-child a {
-  color: #ffa544;
+  color: #cf8f3a;
 }
 .atwho-view ul li:last-child {
   border: none;
 }
 
 .atwho-view ul li a {
-  -webkit-tap-highlight-color: #ffa729;
+  -webkit-tap-highlight-color: #d99a3f;
 }
 
 /* Swipe */
