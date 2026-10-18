@@ -58,7 +58,8 @@ gulp.task('manifest', ['assets'], function (){
 
 gulp.task('assets', ['clean', 'images'], function () {
   var jsFilter     = filter(['**/*.js'], {restore: true}),
-      cssFilter    = filter(['**/*.css'], {restore: true});
+      cssFilter    = filter(['**/*.css'], {restore: true}),
+      noHtmlFilter = filter(['**/*', '!**/*.html'], {restore: true});
 
   return gulp.src(src + '/*.html')
     .pipe(useref())
@@ -70,7 +71,9 @@ gulp.task('assets', ['clean', 'images'], function () {
     .pipe(minifyCss())
     .pipe(filesize())
     .pipe(cssFilter.restore)
+    .pipe(noHtmlFilter)
     .pipe(rev())
+    .pipe(noHtmlFilter.restore)
     .pipe(revReplace())
     .pipe(gulp.dest(build));
 });
