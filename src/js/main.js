@@ -207,6 +207,10 @@ $(function () {
       }
     };
 
+    if (key === 'khata-tagline' && LS[key] === 'পেসনিকের কবিতার খাতা') {
+      delete LS[key];
+    }
+
     if (LS[key] !== undefined && String(LS[key]).trim() !== '') {
       $field.text(LS[key]);
     }
