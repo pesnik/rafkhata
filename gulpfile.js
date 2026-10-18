@@ -45,7 +45,7 @@ gulp.task('images', ['clean'], function () {
 });
 
 gulp.task('fonts', ['clean'], function () {
-  return gulp.src(src + '/fonts/**', {base: src})
+  return gulp.src([src + '/fonts/**', src + '/fonts-noto/**'], {base: src})
     .pipe(gulp.dest(build));
 });
 

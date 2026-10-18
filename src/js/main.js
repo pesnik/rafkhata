@@ -282,9 +282,10 @@ $(function () {
         lh = (parseInt(LS[LINE_HEIGHT_KEY], 10) || 18) / 10,
         format = LS[FORMAT_KEY] || 'prose',
         stacks = {
-          subha: "'Rafkhata', 'Avenir', 'Arial', sans-serif",
-          italic: "'Rafkhata', 'Avenir', 'Arial', sans-serif",
-          system: "-apple-system, 'Segoe UI', 'Arial', sans-serif"
+          subha: "'Rafkhata', 'Noto Sans Bengali', 'Avenir', 'Arial', sans-serif",
+          italic: "'Rafkhata', 'Noto Sans Bengali', 'Avenir', 'Arial', sans-serif",
+          system: "-apple-system, 'Segoe UI', 'Arial', sans-serif",
+          noto: "'Noto Sans Bengali', 'Avenir', 'Arial', sans-serif"
         },
         measures = {
           prose: { textAlign: 'left', maxWidth: '62ch', marginLeft: '0', marginRight: 'auto' },

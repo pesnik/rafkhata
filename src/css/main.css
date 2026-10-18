@@ -22,6 +22,34 @@
   font-display: swap;
 }
 
+/* Noto Sans Bengali — SIL OFL 1.1, bundled so the public build has Bangla. */
+@font-face {
+  font-family: 'Noto Sans Bengali';
+  src: url('../fonts-noto/noto-sans-bengali-bengali-400-normal.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0980-09FF, U+200C-200D, U+25CC;
+}
+
+@font-face {
+  font-family: 'Noto Sans Bengali';
+  src: url('../fonts-noto/noto-sans-bengali-bengali-500-normal.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0980-09FF, U+200C-200D, U+25CC;
+}
+
+@font-face {
+  font-family: 'Noto Sans Bengali';
+  src: url('../fonts-noto/noto-sans-bengali-bengali-600-normal.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0980-09FF, U+200C-200D, U+25CC;
+}
+
 /* Theme tokens — light paper is the default, dark is opt-in. */
 :root {
   --paper: #e7dfd1;
@@ -84,7 +112,7 @@ ul {
 
 html, body {
   height: 100%;
-  font: 14px/25px 'Avenir', 'Rafkhata', 'Arial', 'sans-serif';
+  font: 14px/25px 'Avenir', 'Rafkhata', 'Noto Sans Bengali', 'Arial', 'sans-serif';
   color: var(--ink);
 }
 
@@ -112,7 +140,7 @@ main {
 }
 
 .masthead .wordmark {
-  font-family: 'Rafkhata', serif;
+  font-family: 'Rafkhata', 'Noto Sans Bengali', serif;
   font-size: 34px;
   font-weight: normal;
   line-height: 1.2;
@@ -121,7 +149,7 @@ main {
 }
 
 .masthead .tagline {
-  font-family: 'Rafkhata', serif;
+  font-family: 'Rafkhata', 'Noto Sans Bengali', serif;
   font-size: 14px;
   color: var(--muted);
   margin-top: 2px;
@@ -150,7 +178,7 @@ main {
 }
 
 main .content textarea {
-  font: 19px/1.8 'Rafkhata', 'Avenir', 'Arial', 'sans-serif';
+  font: 19px/1.8 'Rafkhata', 'Noto Sans Bengali', 'Avenir', 'Arial', 'sans-serif';
   color: var(--ink);
   background: transparent;
   width: 100%;
@@ -175,7 +203,7 @@ main .content textarea::placeholder { color: var(--faint); }
           flex-direction: column;
   height: 100%;
   padding: 10px 0 0;
-  font-family: 'Avenir', 'Rafkhata', 'Arial', sans-serif;
+  font-family: 'Avenir', 'Rafkhata', 'Noto Sans Bengali', 'Arial', sans-serif;
 }
 
 .sb-head {
@@ -193,7 +221,7 @@ main .content textarea::placeholder { color: var(--faint); }
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
-  font-family: 'Rafkhata', 'Georgia', serif;
+  font-family: 'Rafkhata', 'Noto Sans Bengali', 'Georgia', serif;
   font-size: 22px;
   line-height: 1.2;
   color: #e2dbcf;
@@ -419,7 +447,7 @@ main .content textarea::placeholder { color: var(--faint); }
   padding: 14px 20px;
   border-top: 1px solid #262420;
   color: #67625b;
-  font-family: 'Rafkhata', 'Avenir', sans-serif;
+  font-family: 'Rafkhata', 'Noto Sans Bengali', 'Avenir', sans-serif;
   font-size: 12px;
 }
 
