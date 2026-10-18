@@ -2,3 +2,6 @@
 /src/vendor/
 /build/
 .DS_Store
+
+# Paid fonts (licensed to the owner only, must not be redistributed)
+/src/fonts/

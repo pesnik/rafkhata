@@ -44,7 +44,12 @@ gulp.task('images', ['clean'], function () {
     .pipe(gulp.dest(build));
 });
 
-gulp.task('manifest', ['assets'], function (){
+gulp.task('fonts', ['clean'], function () {
+  return gulp.src(src + '/fonts/**', {base: src})
+    .pipe(gulp.dest(build));
+});
+
+gulp.task('manifest', ['assets', 'fonts'], function (){
   gulp.src([build + '/**'])
     .pipe(manifest({
       hash         : true,
@@ -85,7 +90,7 @@ gulp.task('watch', ['server'], function () {
   });
 });
 
-gulp.task('build', ['images', 'assets', 'manifest']);
+gulp.task('build', ['images', 'fonts', 'assets', 'manifest']);
 
 gulp.task('default', ['build'], function (next) {
   server(host, process.env.PORT || 8888, build, next);

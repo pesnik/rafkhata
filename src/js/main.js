@@ -18,6 +18,7 @@ $(function () {
       loadDraftId,
       currentDraftId,
       makeTitle,
+      toBengaliNumber,
       $editor = $('textarea'),
       $statusControl = $('#state'),
       $current,
@@ -80,8 +81,9 @@ $(function () {
         data = JSON.parse(LS['draft-' + index]);
       }
       drafts[index] = data;
-      $(this).text(makeTitle(data, index));
+      $(this).find('.sb-item-title').text(makeTitle(data, index));
     });
+    $('.sb-count').text(toBengaliNumber($('.drafts ul li').length));
   };
 
   makeTitle = function (content, index) {
@@ -100,8 +102,14 @@ $(function () {
         return content.substring(0, pos);
       }
     } else {
-      return 'Draft ' + (index + 1);
+      return 'কবিতা ' + toBengaliNumber(index + 1);
     }
+  };
+
+  toBengaliNumber = function (num) {
+    return String(num).replace(/\d/g, function (digit) {
+      return '০১২৩৪৫৬৭৮৯'[digit];
+    });
   };
 
   loadDraftId = function (id) {
@@ -125,13 +133,243 @@ $(function () {
     e.preventDefault();
     $('.drafts ul li.active').removeClass('active');
     $(this).addClass('active');
-    $current = $(this).find('a');
+    $current = $(this).find('.sb-item-title');
 
     currentDraftId = $(this).index();
     loadDraftId(currentDraftId);
   });
 
+  // Inline Avro conversion for the single-line khata name/tagline
+  var wordBoundary = /[\s.,;:!?।]/;
+
+  var getCaretOffset = function (el) {
+    var sel = window.getSelection();
+    if (!sel.rangeCount) return 0;
+    var range = sel.getRangeAt(0).cloneRange();
+    range.selectNodeContents(el);
+    range.setEnd(sel.getRangeAt(0).endContainer, sel.getRangeAt(0).endOffset);
+    return range.toString().length;
+  };
+
+  var setCaretOffset = function (el, offset) {
+    var node = el.firstChild,
+        range = document.createRange(),
+        sel = window.getSelection();
+    if (!node) return;
+    offset = Math.max(0, Math.min(offset, node.textContent.length));
+    range.setStart(node, offset);
+    range.collapse(true);
+    sel.removeAllRanges();
+    sel.addRange(range);
+  };
+
+  var convertWordBefore = function (el, offset) {
+    var text = el.textContent,
+        end = offset,
+        start = end;
+
+    while (start > 0 && /[A-Za-z]/.test(text.charAt(start - 1))) start--;
+
+    var word = text.slice(start, end);
+    if (!/[A-Za-z]/.test(word)) return null;
+
+    var result = avro.suggest(word),
+        best = result && result.words && result.words[0];
+    if (!best || best === word) return null;
+
+    var updated = text.slice(0, start) + best + text.slice(end);
+    var node = el.firstChild;
+
+    // Prefer mutating the text node in place: replacing `textContent` would
+    // destroy the node the browser is tracking and collapse the caret.
+    if (node && node.nodeType === 3) {
+      node.nodeValue = updated;
+    } else {
+      el.textContent = updated;
+    }
+
+    return best.length - word.length;
+  };
+
   // Init
+  // In-place, subtle editing of the khata name and its tagline
+  $('.masthead [contenteditable]').each(function () {
+    var $field = $(this),
+        key = $field.data('key'),
+        fallback = $field.data('default');
+
+    var saveField = function () {
+      var value = $field.text().trim();
+      if (value) {
+        LS[key] = value;
+      } else {
+        delete LS[key];
+      }
+    };
+
+    if (LS[key] !== undefined && String(LS[key]).trim() !== '') {
+      $field.text(LS[key]);
+    }
+
+    $field
+      .on('input', function () {
+        saveField();
+      })
+      .on('keydown', function (e) {
+        var el = this;
+
+        if (e.keyCode === KEY_CODE.ENTER) {
+          e.preventDefault();
+          $field.blur();
+          return;
+        }
+
+        // Convert before the boundary key is inserted, so the browser's own
+        // insertion lands after the Bengali word and the caret stays sane.
+        if (e.key && e.key.length === 1 && wordBoundary.test(e.key)) {
+          var pos = getCaretOffset(el),
+              delta = convertWordBefore(el, pos);
+          if (delta !== null) {
+            setCaretOffset(el, pos + delta);
+          }
+        }
+      })
+      .on('paste', function (e) {
+        e.preventDefault();
+        var text = (e.originalEvent || e).clipboardData.getData('text/plain');
+        document.execCommand('insertText', false, text);
+      })
+      .on('blur', function () {
+        // Convert a trailing, unterminated Latin word.
+        convertWordBefore(this, this.textContent.length);
+
+        if (!this.textContent.trim()) {
+          $field.text(fallback);
+        }
+        saveField();
+      });
+  });
+
+  // Sidebar: start a new poem
+  $('#new-poem').on('click', function () {
+    var index = $('.drafts ul li').length,
+        $li = $('<li><a href="#"><span class="sb-item-title"></span></a></li>'),
+        $icon = $('.drafts ul li:first a .sb-icon').first().clone();
+
+    if ($icon.length) {
+      $li.find('a').prepend($icon);
+    }
+    $li.find('.sb-item-title').text(makeTitle('', index));
+    $('.drafts ul').append($li);
+
+    drafts[index] = '';
+    LS['draft-' + index] = JSON.stringify('');
+
+    fetchAllDrafts();
+    $li.find('a').trigger('click');
+    $editor.focus();
+  });
+
+  // Sidebar: typography and poetry formats
+  var FONT_FAMILY_KEY = 'rafkhata-font-family',
+      FONT_SIZE_KEY = 'rafkhata-font-size',
+      LINE_HEIGHT_KEY = 'rafkhata-line-height',
+      FORMAT_KEY = 'rafkhata-format';
+
+  var applyTypography = function () {
+    var family = LS[FONT_FAMILY_KEY] || 'subha',
+        size = parseInt(LS[FONT_SIZE_KEY], 10) || 19,
+        lh = (parseInt(LS[LINE_HEIGHT_KEY], 10) || 18) / 10,
+        format = LS[FORMAT_KEY] || 'prose',
+        stacks = {
+          subha: "'Rafkhata', 'Avenir', 'Arial', sans-serif",
+          italic: "'Rafkhata', 'Avenir', 'Arial', sans-serif",
+          system: "-apple-system, 'Segoe UI', 'Arial', sans-serif"
+        },
+        measures = {
+          prose: { textAlign: 'left', maxWidth: '62ch', marginLeft: '0', marginRight: 'auto' },
+          verse: { textAlign: 'left', maxWidth: '54ch', marginLeft: '0', marginRight: 'auto' },
+          quatrain: { textAlign: 'center', maxWidth: '46ch', marginLeft: 'auto', marginRight: 'auto' }
+        },
+        measure = measures[format] || measures.prose;
+
+    $editor.css({
+      fontFamily: stacks[family] || stacks.subha,
+      fontSize: size + 'px',
+      fontStyle: family === 'italic' ? 'italic' : 'normal',
+      lineHeight: lh,
+      textAlign: measure.textAlign,
+      maxWidth: measure.maxWidth,
+      marginLeft: measure.marginLeft,
+      marginRight: measure.marginRight
+    });
+    $editor.trigger('autosize.resize');
+
+    $('#font-family').val(family);
+    $('#font-size').val(size);
+    $('#line-height').val(Math.round(lh * 10));
+    $('#font-size-val').text(toBengaliNumber(size));
+    $('#line-height-val').text(toBengaliNumber(lh.toFixed(1)));
+    $('.formats li').removeClass('active')
+      .filter('[data-format="' + format + '"]').addClass('active');
+  };
+
+  $('#font-family').on('change', function () {
+    LS[FONT_FAMILY_KEY] = this.value;
+    applyTypography();
+  });
+
+  $('#font-size').on('input change', function () {
+    LS[FONT_SIZE_KEY] = this.value;
+    applyTypography();
+  });
+
+  $('#line-height').on('input change', function () {
+    LS[LINE_HEIGHT_KEY] = this.value;
+    applyTypography();
+  });
+
+  $('.formats').on('click', 'li', function (e) {
+    e.preventDefault();
+    LS[FORMAT_KEY] = $(this).data('format');
+    applyTypography();
+  });
+
+  // Sidebar: header actions
+  var THEME_KEY = 'rafkhata-theme';
+
+  var applyTheme = function () {
+    var theme = LS[THEME_KEY] === 'dark' ? 'dark' : 'light',
+        isDark = theme === 'dark';
+
+    document.documentElement.setAttribute('data-theme', theme);
+    $('#theme-btn')
+      .attr('title', isDark ? 'লাইট থিম' : 'ডার্ক থিম')
+      .attr('aria-label', isDark ? 'লাইট থিম' : 'ডার্ক থিম');
+  };
+
+  $('#theme-btn').on('click', function () {
+    LS[THEME_KEY] = (LS[THEME_KEY] === 'dark') ? 'light' : 'dark';
+    applyTheme();
+  });
+
+  $('#settings-btn').on('click', function () {
+    $('.sidebar').toggleClass('options-hidden');
+  });
+  $('#sidebar-toggle').on('click', function () {
+    $('#wrapper').toggleClass('sidebar-collapsed');
+  });
+
+  $(document).on('keydown', function (e) {
+    if ((e.metaKey || e.ctrlKey) && e.keyCode === 66) {
+      e.preventDefault();
+      $('#wrapper').toggleClass('sidebar-collapsed');
+    }
+  });
+
+  applyTheme();
+  applyTypography();
+
   fetchAllDrafts();
   // Load the first draft
   $('.drafts ul li:first a').trigger('click');
@@ -322,7 +560,10 @@ $(function () {
     }
   };
 
-  $('.content').on('click', function () {
+  $('.content').on('click', function (e) {
+    if ($(e.target).closest('[contenteditable]').length) {
+      return;
+    }
     $editor.focus();
   });
 
